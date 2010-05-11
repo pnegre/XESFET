@@ -77,7 +77,8 @@ def exportGestib(teachers_list,subjects_list,course_list):
 		subgroups = c.getElementsByTagName('GRUP')
 		for s in subgroups:
 			subgroup = doc.createElement("Subgroup")
-			nsub = createElement(doc,"Name",s.getAttribute("nom"))
+			nsub = createElement(doc,"Name",c.getAttribute("descripcio") + 
+				' ' + s.getAttribute("nom"))
 			subgroup.appendChild(nsub)
 			subgroup.appendChild(createElement(doc,"Number_of_Students","0"))
 			course.appendChild(subgroup)
