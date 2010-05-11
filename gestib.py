@@ -10,83 +10,76 @@ def createElement(doc,name,content):
 	return elem
 
 
-def exportGestib(teachers_list,subjects_list,course_list):
-	doc = xml.dom.minidom.Document()
-	root = doc.createElement("FET")
-	root.setAttribute("version","5.11.0")
-	doc.appendChild(root)
-	Teachers_List = doc.createElement("Teachers_List")
-	Students_List = doc.createElement("Students_List")
-	Activity_Tags_List = doc.createElement("Activity_Tags_List")
-	Subjects_List = doc.createElement("Subjects_List")
-	root.appendChild(Teachers_List)
-	root.appendChild(Students_List)
-	root.appendChild(Activity_Tags_List)
-	root.appendChild(Subjects_List)
-	
-	for t in teachers_list:
-		teacher = doc.createElement("Teacher")
-		tname = doc.createElement("Name")
-		tname.appendChild(doc.createTextNode(t.getAttribute('nom') + ' ' +
-			t.getAttribute('ap1') +' '+ t.getAttribute('ap2')))
-		teacher.appendChild(tname)
-		Teachers_List.appendChild(teacher)
-	
-	for s in subjects_list:
-		subject = doc.createElement("Subject")
-		sname = doc.createElement("Name")
-		sname.appendChild(doc.createTextNode(s.getAttribute('descripcio')
-			+' '+ s.getAttribute('codi')))
-		subject.appendChild(sname)
-		Subjects_List.appendChild(subject)
-		
-	#<Students_List>
-	#<Year>
-	#<Name>aa</Name>
-	#<Number_of_Students>0</Number_of_Students>
-			#<Group>
-			#<Name>1erESO</Name>
-			#<Number_of_Students>0</Number_of_Students>
-					#<Subgroup>
-					#<Name>A</Name>
-					#<Number_of_Students>0</Number_of_Students>
-					#</Subgroup>
-					#<Subgroup>
-					#<Name>B</Name>
-					#<Number_of_Students>0</Number_of_Students>
-					#</Subgroup>
-			#</Group>
-	#</Year>
-	year = doc.createElement("Year")
-	Students_List.appendChild(year)
-	yname = doc.createElement("Name")
-	yname.appendChild(doc.createTextNode("any"))
-	year.appendChild(yname)
-	nstud = doc.createElement("Number_of_Students")
-	nstud.appendChild(doc.createTextNode("0"))
-	year.appendChild(nstud)
-	for c in course_list:
-		course = doc.createElement("Group")
-		nstud = doc.createElement("Number_of_Students")
-		nstud.appendChild(doc.createTextNode("0"))
-		course.appendChild(nstud)
-		cname = doc.createElement("Name")
-		cname.appendChild(doc.createTextNode(c.getAttribute("descripcio")))
-		course.appendChild(cname)
-		
-		subgroups = c.getElementsByTagName('GRUP')
-		for s in subgroups:
-			subgroup = doc.createElement("Subgroup")
-			nsub = createElement(doc,"Name",c.getAttribute("descripcio") + 
-				' ' + s.getAttribute("nom"))
-			subgroup.appendChild(nsub)
-			subgroup.appendChild(createElement(doc,"Number_of_Students","0"))
-			course.appendChild(subgroup)
-		
-		year.appendChild(course)
-	
 
+
+class ExportGestib:
+	def __init__(self,fname="exportacioFET.fet"):
+		self.doc = xml.dom.minidom.Document()
+		self.root = self.doc.createElement("FET")
+		self.root.setAttribute("version","5.11.0")
+		self.doc.appendChild(self.root)
+		self.fname = fname
 	
-	f = codecs.open("exportacioFET.fet", "w", "utf-8")
-	doc.writexml(f)
-	f.close()
+	
+	def doActivities(self,activ_list):
+		alist = self.doc.createElement("Activity_Tags_List")
+		self.root.appendChild(alist)
+		for a in activ_list:
+			activity = self.doc.createElement("Activity_Tag")
+			activity.appendChild(createElement(self.doc,"Name",a.getAttribute('curta')))
+			alist.appendChild(activity)
+			
+	
+	
+	def doSubjects(self,subjects_list):
+		slist = self.doc.createElement("Subjects_List")
+		self.root.appendChild(slist)
+		
+		for s in subjects_list:
+			subject = self.doc.createElement("Subject")
+			sname = self.doc.createElement("Name")
+			sname.appendChild(self.doc.createTextNode(s.getAttribute('curta')
+				+' '+ '('+s.getAttribute('codi')+')'))
+			subject.appendChild(sname)
+			slist.appendChild(subject)
+	
+	
+	def doTeachers(self,teachers_list):
+		tlist = self.doc.createElement("Teachers_List")
+		self.root.appendChild(tlist)
+		for t in teachers_list:
+			teacher = self.doc.createElement("Teacher")
+			teacher.appendChild(createElement(self.doc,"Name",
+				t.getAttribute("descripcio") + ' ' + '('+t.getAttribute("codi")+')'
+			))
+			tlist.appendChild(teacher)
+
+
+	def doGroups(self,course_list):
+		slist = self.doc.createElement("Students_List")
+		self.root.appendChild(slist)
+		year = self.doc.createElement("Year")
+		year.appendChild(createElement(self.doc,"Name","any"))
+		year.appendChild(createElement(self.doc,"Number_of_Students","0"))
+		slist.appendChild(year)
+		for c in course_list:
+			course = self.doc.createElement("Group")
+			course.appendChild(createElement(self.doc,"Number_of_Students","0"))
+			course.appendChild(createElement(self.doc,"Name",c.getAttribute("descripcio")))
+			year.appendChild(course)
+			
+			for s in c.getElementsByTagName('GRUP'):
+				subgroup = self.doc.createElement("Subgroup")
+				subgroup.appendChild(createElement(self.doc,"Name",c.getAttribute("descripcio") + 
+					' ' + s.getAttribute("nom") + ' ('+s.getAttribute("codi")+')'))
+				subgroup.appendChild(createElement(self.doc,"Number_of_Students","0"))
+				course.appendChild(subgroup)
+
+
+	def writeToFile(self):
+		f = codecs.open(self.fname, "w", "utf-8")
+		self.doc.writexml(f)
+		f.close()
+
+
+
