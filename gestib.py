@@ -13,12 +13,11 @@ def createElement(doc,name,content):
 
 
 class ExportGestib:
-	def __init__(self,fname="exportacioFET.fet"):
+	def __init__(self):
 		self.doc = xml.dom.minidom.Document()
 		self.root = self.doc.createElement("FET")
 		self.root.setAttribute("version","5.11.0")
 		self.doc.appendChild(self.root)
-		self.fname = fname
 	
 	
 	def doActivities(self,activ_list):
@@ -76,8 +75,8 @@ class ExportGestib:
 				course.appendChild(subgroup)
 
 
-	def writeToFile(self):
-		f = codecs.open(self.fname, "w", "utf-8")
+	def writeToFile(self,fname):
+		f = codecs.open(fname, "w", "utf-8")
 		self.doc.writexml(f)
 		f.close()
 
