@@ -38,7 +38,7 @@ class MainWindow(QtGui.QMainWindow):
 		filename = QtGui.QFileDialog.getOpenFileName(self,
 			QtCore.QString("Fitxer gestib"), QtCore.QString(), "XML files (*.xml)")
 		
-		if filename == None: 
+		if filename == '': 
 			self.updateButtons()
 			return
 		
@@ -60,16 +60,29 @@ class MainWindow(QtGui.QMainWindow):
 			self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
 			self.updateButtons()
 		except:
-			pass
+			msgbox = QtGui.QMessageBox( self )
+			msgbox.setText( "Error" )
+			msgbox.setModal( True )
+			ret = msgbox.exec_()
 	
 	
 	def doExportFet(self):
 		filename = QtGui.QFileDialog.getOpenFileName(self,
 			QtCore.QString("Fitxer FET"), QtCore.QString(), "XML FET (*.fet)")
-		fn = str(filename)
-		self.importGestib.writeToFile(fn)
-		self.ui.console.append('Fitxer ' + fn + ' Exportat correctament')
 		
+		if filename == '':
+			return
+		
+		try:
+			fn = str(filename)
+			self.importGestib.writeToFile(fn)
+			self.ui.console.append('Fitxer ' + fn + ' Exportat correctament')
+		except:
+			msgbox = QtGui.QMessageBox( self )
+			msgbox.setText( "Error" )
+			msgbox.setModal( True )
+			ret = msgbox.exec_()
+			
 
 
 
