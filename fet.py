@@ -5,7 +5,7 @@ import sys
 
 from PyQt4 import QtCore, QtGui, uic
 from xml.dom.minidom import parse, parseString
-from gestib import ExportGestib
+from gestib import ImportGestib
 
 
 
@@ -50,7 +50,7 @@ class MainWindow(QtGui.QMainWindow):
 			mats = dom.getElementsByTagName('MATERIA')
 			acts = dom.getElementsByTagName('ACTIVITAT')
 			
-			g = ExportGestib()
+			g = ImportGestib()
 			g.doTeachers(teachers)
 			g.doGroups(courses)
 			g.doSubjects(mats)
