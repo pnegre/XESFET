@@ -22,7 +22,8 @@ class MainWindow(QtGui.QMainWindow):
 	
 	
 	def doImportGestib(self):
-		filename = QtGui.QFileDialog.getOpenFileName(self)
+		filename = QtGui.QFileDialog.getOpenFileName(self,
+			QtCore.QString("Fitxer gestib"), QtCore.QString(), "XML files (*.xml)")
 		dom = parse(str(filename))
 		
 		teachers = dom.getElementsByTagName('PLACA')
@@ -41,7 +42,8 @@ class MainWindow(QtGui.QMainWindow):
 	
 	
 	def doExportFet(self):
-		filename = QtGui.QFileDialog.getOpenFileName(self)
+		filename = QtGui.QFileDialog.getOpenFileName(self,
+			QtCore.QString("Fitxer FET"), QtCore.QString(), "XML FET (*.fet)")
 		fn = str(filename)
 		self.importGestib.writeToFile(fn)
 		self.ui.console.append('Fitxer ' + fn + ' Exportat correctament')

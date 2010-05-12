@@ -18,6 +18,7 @@ class ExportGestib:
 		self.root = self.doc.createElement("FET")
 		self.root.setAttribute("version","5.11.0")
 		self.doc.appendChild(self.root)
+		self.otherStuff()
 	
 	
 	def doActivities(self,activ_list):
@@ -79,6 +80,31 @@ class ExportGestib:
 		f = codecs.open(fname, "w", "utf-8")
 		self.doc.writexml(f)
 		f.close()
+	
+	
+	def otherStuff(self):
+		#<Time_Constraints_List>
+		#<ConstraintBasicCompulsoryTime>
+				#<Weight_Percentage>100</Weight_Percentage>
+		#</ConstraintBasicCompulsoryTime>
+		#</Time_Constraints_List>
 
-
+		#<Space_Constraints_List>
+		#<ConstraintBasicCompulsorySpace>
+				#<Weight_Percentage>100</Weight_Percentage>
+		#</ConstraintBasicCompulsorySpace>
+		#</Space_Constraints_List>
+		
+		Time_Constraints_List=self.doc.createElement("Time_Constraints_List")
+		Space_Constraints_List=self.doc.createElement("Space_Constraints_List")
+		self.root.appendChild(Time_Constraints_List)
+		self.root.appendChild(Space_Constraints_List)
+		
+		compTime = self.doc.createElement("ConstraintBasicCompulsoryTime")
+		Time_Constraints_List.appendChild(compTime)
+		compTime.appendChild(createElement(self.doc,"Weight_Percentage","100"))
+		
+		compSpace = self.doc.createElement("ConstraintBasicCompulsorySpace")
+		Space_Constraints_List.appendChild(compSpace)
+		compSpace.appendChild(createElement(self.doc,"Weight_Percentage","100"))
 
