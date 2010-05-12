@@ -19,26 +19,48 @@ class MainWindow(QtGui.QMainWindow):
 		
 		self.connect(self.ui.but_export_fet,
 			QtCore.SIGNAL("clicked()"), self.doExportFet)
+		
+		self.importGestib = None
+		self.updateButtons()
+	
+	
+	def updateButtons(self):
+		if self.importGestib:
+			self.ui.but_import_gestib.setEnabled(1)
+			self.ui.but_export_fet.setEnabled(1)
+		else:
+			self.ui.but_import_gestib.setEnabled(1)
+			self.ui.but_export_fet.setEnabled(0)
 	
 	
 	def doImportGestib(self):
+		self.importGestib = None
 		filename = QtGui.QFileDialog.getOpenFileName(self,
 			QtCore.QString("Fitxer gestib"), QtCore.QString(), "XML files (*.xml)")
-		dom = parse(str(filename))
 		
-		teachers = dom.getElementsByTagName('PLACA')
-		courses = dom.getElementsByTagName('CURS')
-		mats = dom.getElementsByTagName('MATERIA')
-		acts = dom.getElementsByTagName('ACTIVITAT')
+		if filename == None: 
+			self.updateButtons()
+			return
 		
-		g = ExportGestib()
-		g.doTeachers(teachers)
-		g.doGroups(courses)
-		g.doSubjects(mats)
-		g.doActivities(acts)
-		
-		self.importGestib = g
-		self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
+		try:
+			dom = parse(str(filename))
+			
+			teachers = dom.getElementsByTagName('PLACA')
+			courses = dom.getElementsByTagName('CURS')
+			mats = dom.getElementsByTagName('MATERIA')
+			acts = dom.getElementsByTagName('ACTIVITAT')
+			
+			g = ExportGestib()
+			g.doTeachers(teachers)
+			g.doGroups(courses)
+			g.doSubjects(mats)
+			g.doActivities(acts)
+			
+			self.importGestib = g
+			self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
+			self.updateButtons()
+		except:
+			pass
 	
 	
 	def doExportFet(self):
