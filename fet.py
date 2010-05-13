@@ -4,7 +4,6 @@
 import sys
 
 from PyQt4 import QtCore, QtGui, uic
-from xml.dom.minidom import parse, parseString
 from gestib import ImportGestib
 
 
@@ -43,20 +42,8 @@ class MainWindow(QtGui.QMainWindow):
 			return
 		
 		try:
-			dom = parse(str(filename))
-			
-			teachers = dom.getElementsByTagName('PLACA')
-			courses = dom.getElementsByTagName('CURS')
-			mats = dom.getElementsByTagName('MATERIA')
-			acts = dom.getElementsByTagName('ACTIVITAT')
-			
-			g = ImportGestib()
-			g.doTeachers(teachers)
-			g.doGroups(courses)
-			g.doSubjects(mats)
-			g.doActivities(acts)
-			
-			self.importGestib = g
+			self.importGestib = ImportGestib()
+			self.importGestib.parse(str(filename))
 			self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
 			self.updateButtons()
 		except:
@@ -76,7 +63,7 @@ class MainWindow(QtGui.QMainWindow):
 		try:
 			fn = str(filename)
 			self.importGestib.writeToFile(fn)
-			self.ui.console.append('Fitxer ' + fn + ' Exportat correctament')
+			self.ui.console.append('Fitxer ' + fn + ' exportat correctament')
 		except:
 			msgbox = QtGui.QMessageBox( self )
 			msgbox.setText( "Error" )

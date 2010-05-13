@@ -24,7 +24,17 @@ class ImportGestib:
 		self.otherStuff()
 	
 	
-	def doActivities(self,activ_list):
+	def parse(self,fname):
+		self.dom = xml.dom.minidom.parse(fname)
+		self.doTeachers()
+		self.doGroups()
+		self.doSubjects()
+		self.doActivities()
+	
+	
+	
+	def doActivities(self):
+		activ_list = self.dom.getElementsByTagName('ACTIVITAT')
 		alist = self.doc.createElement("Activity_Tags_List")
 		self.root.appendChild(alist)
 		for a in activ_list:
@@ -35,20 +45,27 @@ class ImportGestib:
 			
 	
 	
-	def doSubjects(self,subjects_list):
+	def doSubjects(self):
+		subjects_list = self.dom.getElementsByTagName('MATERIA')
 		slist = self.doc.createElement("Subjects_List")
 		self.root.appendChild(slist)
+		
+		courses_names = {}
+		for c in self.dom.getElementsByTagName('CURS'):
+			courses_names[c.getAttribute("codi")] = c.getAttribute("descripcio")
 		
 		for s in subjects_list:
 			subject = self.doc.createElement("Subject")
 			sname = self.doc.createElement("Name")
 			sname.appendChild(self.doc.createTextNode(
+				courses_names[s.getAttribute("curs")] + " " +
 				joinAttrs(s,'curta','codi')))
 			subject.appendChild(sname)
 			slist.appendChild(subject)
 	
 	
-	def doTeachers(self,teachers_list):
+	def doTeachers(self):
+		teachers_list = self.dom.getElementsByTagName('PLACA')
 		tlist = self.doc.createElement("Teachers_List")
 		self.root.appendChild(tlist)
 		for t in teachers_list:
@@ -59,7 +76,8 @@ class ImportGestib:
 			tlist.appendChild(teacher)
 
 
-	def doGroups(self,course_list):
+	def doGroups(self):
+		course_list = self.dom.getElementsByTagName('CURS')
 		slist = self.doc.createElement("Students_List")
 		self.root.appendChild(slist)
 		year = self.doc.createElement("Year")
@@ -74,7 +92,8 @@ class ImportGestib:
 			
 			for s in c.getElementsByTagName('GRUP'):
 				subgroup = self.doc.createElement("Subgroup")
-				subgroup.appendChild(createElement(self.doc,"Name",c.getAttribute("descripcio") + 
+				subgroup.appendChild(createElement(self.doc,"Name",
+					c.getAttribute("descripcio") + 
 					' ' + joinAttrs(s,"nom","codi")))
 				subgroup.appendChild(createElement(self.doc,"Number_of_Students","0"))
 				course.appendChild(subgroup)
