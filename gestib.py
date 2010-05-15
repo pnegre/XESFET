@@ -2,6 +2,7 @@
 
 import xml.dom.minidom
 import codecs
+import re
 
 
 def createElement(doc,name,content):
@@ -31,11 +32,18 @@ class ImportGestib:
 	
 	def deleteCourse(self,course):
 		cs = self.doc.getElementsByTagName('Group')
+		slist = self.doc.getElementsByTagName('Subjects_List')[0]
 		year = self.doc.getElementsByTagName('Year')[0]
 		for c in cs:
 			n = c.getElementsByTagName('Name')[0].firstChild.data
 			if n == course:
 				year.removeChild(c)
+				# Eliminar també les assignatures depenents del curs
+				cname = re.findall('(.*)\(.*\)',n)[0].strip()
+				for s in slist.getElementsByTagName('Subject'):
+					n = s.getElementsByTagName('Name')[0].firstChild.data
+					if re.search(cname,n):
+						slist.removeChild(s)
 	
 	
 	def parse(self,fname):
