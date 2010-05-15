@@ -29,6 +29,15 @@ class ImportGestib:
 		return [ g.getElementsByTagName('Name')[0].firstChild.data for g in groups ]
 	
 	
+	def deleteCourse(self,course):
+		cs = self.doc.getElementsByTagName('Group')
+		year = self.doc.getElementsByTagName('Year')[0]
+		for c in cs:
+			n = c.getElementsByTagName('Name')[0].firstChild.data
+			if n == course:
+				year.removeChild(c)
+	
+	
 	def parse(self,fname):
 		self.dom = xml.dom.minidom.parse(fname)
 		self.doTeachers()

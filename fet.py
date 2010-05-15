@@ -19,10 +19,20 @@ class MainWindow(QtGui.QMainWindow):
 		self.connect(self.ui.but_export_fet,
 			QtCore.SIGNAL("clicked()"), self.doExportFet)
 		
+		self.connect(self.ui.but_delete,
+			QtCore.SIGNAL("clicked()"), self.deleteCourses)
+		
 		self.importGestib = None
 		self.updateButtons()
-		
-		#self.ui.courseList.addItem("ei")
+	
+	
+	
+	def deleteCourses(self):
+		item = self.ui.courseList.currentItem()
+		if item:
+			self.importGestib.deleteCourse(unicode(item.text()))
+			self.ui.courseList.takeItem(self.ui.courseList.currentRow())
+	
 	
 	
 	def updateButtons(self):
@@ -43,22 +53,21 @@ class MainWindow(QtGui.QMainWindow):
 			self.updateButtons()
 			return
 		
-		#try:
-		self.importGestib = ImportGestib()
-		self.importGestib.parse(str(filename))
-		self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
-		self.updateButtons()
+		try:
+			self.importGestib = ImportGestib()
+			self.importGestib.parse(str(filename))
+			self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
+			self.updateButtons()
+			
+			groups = self.importGestib.getGroups()
+			for g in groups:
+				self.ui.courseList.addItem(g)
 		
-		groups = self.importGestib.getGroups()
-		for g in groups:
-			self.ui.courseList.addItem(g)
-			
-			
-		#except:
-			#msgbox = QtGui.QMessageBox( self )
-			#msgbox.setText( "Error" )
-			#msgbox.setModal( True )
-			#ret = msgbox.exec_()
+		except:
+			msgbox = QtGui.QMessageBox( self )
+			msgbox.setText( "Error" )
+			msgbox.setModal( True )
+			ret = msgbox.exec_()
 	
 	
 	def doExportFet(self):
