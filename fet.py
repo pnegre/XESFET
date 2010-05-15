@@ -21,6 +21,8 @@ class MainWindow(QtGui.QMainWindow):
 		
 		self.importGestib = None
 		self.updateButtons()
+		
+		self.ui.courseList.addItem("ei")
 	
 	
 	def updateButtons(self):

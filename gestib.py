@@ -9,9 +9,9 @@ def createElement(doc,name,content):
 	elem.appendChild(doc.createTextNode(content))
 	return elem
 
+
 def joinAttrs(element,at1,at2):
 	return element.getAttribute(at1) + " (" + element.getAttribute(at2) + ")"
-
 
 
 
