@@ -22,7 +22,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.importGestib = None
 		self.updateButtons()
 		
-		self.ui.courseList.addItem("ei")
+		#self.ui.courseList.addItem("ei")
 	
 	
 	def updateButtons(self):
@@ -43,16 +43,22 @@ class MainWindow(QtGui.QMainWindow):
 			self.updateButtons()
 			return
 		
-		try:
-			self.importGestib = ImportGestib()
-			self.importGestib.parse(str(filename))
-			self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
-			self.updateButtons()
-		except:
-			msgbox = QtGui.QMessageBox( self )
-			msgbox.setText( "Error" )
-			msgbox.setModal( True )
-			ret = msgbox.exec_()
+		#try:
+		self.importGestib = ImportGestib()
+		self.importGestib.parse(str(filename))
+		self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
+		self.updateButtons()
+		
+		groups = self.importGestib.getGroups()
+		for g in groups:
+			self.ui.courseList.addItem(g)
+			
+			
+		#except:
+			#msgbox = QtGui.QMessageBox( self )
+			#msgbox.setText( "Error" )
+			#msgbox.setModal( True )
+			#ret = msgbox.exec_()
 	
 	
 	def doExportFet(self):
