@@ -22,6 +22,9 @@ class MainWindow(QtGui.QMainWindow):
 		self.connect(self.ui.but_delete_courses,
 			QtCore.SIGNAL("clicked()"), self.deleteCourses)
 		
+		self.connect(self.ui.but_delete_profs,
+			QtCore.SIGNAL("clicked()"), self.deleteProfs)
+		
 		self.importGestib = None
 		self.updateButtons()
 	
@@ -33,6 +36,12 @@ class MainWindow(QtGui.QMainWindow):
 			self.importGestib.deleteCourse(unicode(item.text()))
 			self.ui.courseList.takeItem(self.ui.courseList.currentRow())
 	
+	
+	def deleteProfs(self):
+		item = self.ui.profList.currentItem()
+		if item:
+			self.importGestib.deleteProf(unicode(item.text()))
+			self.ui.profList.takeItem(self.ui.profList.currentRow())
 	
 	
 	def updateButtons(self):

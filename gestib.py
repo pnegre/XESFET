@@ -35,6 +35,14 @@ class ImportGestib:
 		return [ p.getElementsByTagName('Name')[0].firstChild.data for p in profs ]
 	
 	
+	def deleteProf(self,prof):
+		plist = self.doc.getElementsByTagName('Teachers_List')[0]
+		for p in plist.getElementsByTagName('Teacher'):
+			n = p.getElementsByTagName('Name')[0].firstChild.data
+			if n == prof:
+				plist.removeChild(p)
+	
+	
 	def deleteCourse(self,course):
 		cs = self.doc.getElementsByTagName('Group')
 		slist = self.doc.getElementsByTagName('Subjects_List')[0]
