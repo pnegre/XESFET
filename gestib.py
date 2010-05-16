@@ -27,12 +27,16 @@ class ImportGestib:
 	
 	def getGroups(self):
 		groups = self.doc.getElementsByTagName('Group')
-		return [ g.getElementsByTagName('Name')[0].firstChild.data for g in groups ]
+		result = [ g.getElementsByTagName('Name')[0].firstChild.data for g in groups ]
+		result.sort()
+		return result
 	
 	
 	def getProfs(self):
 		profs = self.doc.getElementsByTagName('Teacher')
-		return [ p.getElementsByTagName('Name')[0].firstChild.data for p in profs ]
+		result = [ p.getElementsByTagName('Name')[0].firstChild.data for p in profs ]
+		result.sort()
+		return result
 	
 	
 	def deleteProf(self,prof):
