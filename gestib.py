@@ -17,7 +17,8 @@ def joinAttrs(element,at1,at2):
 
 
 class ImportGestib:
-	def __init__(self):
+	def __init__(self,fname):
+		self.dom = xml.dom.minidom.parse(fname)
 		self.doc = xml.dom.minidom.Document()
 		self.root = self.doc.createElement('FET')
 		self.root.setAttribute('version','5.11.0')
@@ -26,45 +27,49 @@ class ImportGestib:
 	
 	
 	def getGroups(self):
-		groups = self.doc.getElementsByTagName('Group')
-		result = [ g.getElementsByTagName('Name')[0].firstChild.data for g in groups ]
+		clist = self.dom.getElementsByTagName('CURSOS')[0]
+		courses = clist.getElementsByTagName('CURS')
+		result = []
+		for c in courses:
+			result.append(c.getAttribute('descripcio'))
 		result.sort()
 		return result
 	
 	
 	def getProfs(self):
-		profs = self.doc.getElementsByTagName('Teacher')
-		result = [ p.getElementsByTagName('Name')[0].firstChild.data for p in profs ]
+		plist = self.dom.getElementsByTagName('PLACES')[0]
+		profs = plist.getElementsByTagName('PLACA')
+		result = [ p.getAttribute('descripcio') for p in profs ]
 		result.sort()
 		return result
 	
 	
 	def deleteProf(self,prof):
-		plist = self.doc.getElementsByTagName('Teachers_List')[0]
-		for p in plist.getElementsByTagName('Teacher'):
-			n = p.getElementsByTagName('Name')[0].firstChild.data
-			if n == prof:
+		plist = self.dom.getElementsByTagName('PLACES')[0]
+		profs = plist.getElementsByTagName('PLACA')
+		for p in profs:
+			if p.getAttribute('descripcio') == prof:
 				plist.removeChild(p)
 	
 	
 	def deleteCourse(self,course):
-		cs = self.doc.getElementsByTagName('Group')
-		slist = self.doc.getElementsByTagName('Subjects_List')[0]
-		year = self.doc.getElementsByTagName('Year')[0]
-		for c in cs:
-			n = c.getElementsByTagName('Name')[0].firstChild.data
-			if n == course:
-				year.removeChild(c)
-				# Eliminar també les assignatures depenents del curs
-				cname = re.findall('(.*)\(.*\)',n)[0].strip()
-				for s in slist.getElementsByTagName('Subject'):
-					n = s.getElementsByTagName('Name')[0].firstChild.data
-					if re.search(cname,n):
-						slist.removeChild(s)
+		clist = self.dom.getElementsByTagName('CURSOS')[0]
+		courses = clist.getElementsByTagName('CURS')
+		mlist = self.dom.getElementsByTagName('MATERIES')[0]
+		mats = mlist.getElementsByTagName('MATERIA')
+		for c in courses:
+			name = c.getAttribute('descripcio')
+			cod = c.getAttribute('codi')
+			if name == course:
+				# Eliminem matèries del curs
+				for m in mats:
+					cod_mat_curs = m.getAttribute('curs')
+					if cod == cod_mat_curs:
+						mlist.removeChild(m)
+				clist.removeChild(c)
 	
 	
-	def parse(self,fname):
-		self.dom = xml.dom.minidom.parse(fname)
+	def parse(self):
 		self.doTeachers()
 		self.doGroups()
 		self.doSubjects()
