@@ -103,7 +103,7 @@ class ImportGestib:
 			sname = self.doc.createElement('Name')
 			sname.appendChild(self.doc.createTextNode(
 				courses_names[s.getAttribute('curs')] + ' ' +
-				joinAttrs(s,'curta','codi')))
+				joinAttrs(s,'descripcio','codi')))
 			subject.appendChild(sname)
 			slist.appendChild(subject)
 	
