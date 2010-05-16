@@ -2,7 +2,7 @@
 
 import xml.dom.minidom
 import codecs
-import re
+#import re
 
 
 def createElement(doc,name,content):

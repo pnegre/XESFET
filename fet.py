@@ -29,12 +29,16 @@ class MainWindow(QtGui.QMainWindow):
 		self.updateButtons()
 	
 	
+	def log(self,string):
+		self.ui.console.append(string)
+	
 	
 	def deleteCourses(self):
 		item = self.ui.courseList.currentItem()
 		if item:
 			self.importGestib.deleteCourse(unicode(item.text()))
 			self.ui.courseList.takeItem(self.ui.courseList.currentRow())
+			self.log("Eliminat curs " + item.text())
 	
 	
 	def deleteProfs(self):
@@ -42,15 +46,20 @@ class MainWindow(QtGui.QMainWindow):
 		if item:
 			self.importGestib.deleteProf(unicode(item.text()))
 			self.ui.profList.takeItem(self.ui.profList.currentRow())
+			self.log("Eliminat professor " + item.text())
 	
 	
 	def updateButtons(self):
 		if self.importGestib:
 			self.ui.but_import_gestib.setEnabled(1)
 			self.ui.but_export_fet.setEnabled(1)
+			self.ui.but_delete_courses.setEnabled(1)
+			self.ui.but_delete_profs.setEnabled(1)
 		else:
 			self.ui.but_import_gestib.setEnabled(1)
 			self.ui.but_export_fet.setEnabled(0)
+			self.ui.but_delete_courses.setEnabled(0)
+			self.ui.but_delete_profs.setEnabled(0)
 	
 	
 	def doImportGestib(self):
@@ -64,7 +73,7 @@ class MainWindow(QtGui.QMainWindow):
 		
 		try:
 			self.importGestib = ImportGestib(str(filename))
-			self.ui.console.append('Fitxer ' + filename + ' carregat correctament')
+			self.log('Fitxer ' + filename + ' carregat correctament')
 			self.updateButtons()
 			
 			groups = self.importGestib.getGroups()
@@ -93,7 +102,7 @@ class MainWindow(QtGui.QMainWindow):
 			fn = str(filename)
 			self.importGestib.parse()
 			self.importGestib.writeToFile(fn)
-			self.ui.console.append('Fitxer ' + fn + ' exportat correctament')
+			self.log('Fitxer ' + fn + ' exportat correctament')
 		except:
 			msgbox = QtGui.QMessageBox( self )
 			msgbox.setText( "Error" )

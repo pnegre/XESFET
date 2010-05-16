@@ -69,19 +69,6 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
-         <widget class="QPushButton" name="pushButton_2">
-          <property name="maximumSize">
-           <size>
-            <width>179</width>
-            <height>29</height>
-           </size>
-          </property>
-          <property name="text">
-           <string>Exporta cap a GESTIB</string>
-          </property>
-         </widget>
-        </item>
-        <item>
          <widget class="QPushButton" name="but_import_2">
           <property name="maximumSize">
            <size>
@@ -91,6 +78,19 @@
           </property>
           <property name="text">
            <string>Carrega fitxer de FET</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QPushButton" name="pushButton_2">
+          <property name="maximumSize">
+           <size>
+            <width>179</width>
+            <height>29</height>
+           </size>
+          </property>
+          <property name="text">
+           <string>Exporta cap a GESTIB</string>
           </property>
          </widget>
         </item>
@@ -133,7 +133,10 @@
     <item row="2" column="0">
      <widget class="QTextEdit" name="console">
       <property name="enabled">
-       <bool>false</bool>
+       <bool>true</bool>
+      </property>
+      <property name="readOnly">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
