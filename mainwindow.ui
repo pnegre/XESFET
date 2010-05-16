@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>606</width>
-    <height>567</height>
+    <width>576</width>
+    <height>543</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -101,14 +101,32 @@
     <item row="1" column="0">
      <layout class="QHBoxLayout" name="horizontalLayout_2">
       <item>
-       <widget class="QListWidget" name="courseList"/>
+       <layout class="QVBoxLayout" name="verticalLayout_4">
+        <item>
+         <widget class="QListWidget" name="courseList"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="but_delete_courses">
+          <property name="text">
+           <string>Elimina cursos</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
       <item>
-       <widget class="QPushButton" name="but_delete">
-        <property name="text">
-         <string>Elimina seleccionats</string>
-        </property>
-       </widget>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QListWidget" name="profList"/>
+        </item>
+        <item>
+         <widget class="QPushButton" name="but_delete_profs">
+          <property name="text">
+           <string>Elimina professors</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
       </item>
      </layout>
     </item>
@@ -126,7 +144,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>606</width>
+     <width>576</width>
      <height>20</height>
     </rect>
    </property>

@@ -19,7 +19,7 @@ class MainWindow(QtGui.QMainWindow):
 		self.connect(self.ui.but_export_fet,
 			QtCore.SIGNAL("clicked()"), self.doExportFet)
 		
-		self.connect(self.ui.but_delete,
+		self.connect(self.ui.but_delete_courses,
 			QtCore.SIGNAL("clicked()"), self.deleteCourses)
 		
 		self.importGestib = None
@@ -62,6 +62,10 @@ class MainWindow(QtGui.QMainWindow):
 			groups = self.importGestib.getGroups()
 			for g in groups:
 				self.ui.courseList.addItem(g)
+			
+			profs = self.importGestib.getProfs()
+			for p in profs:
+				self.ui.profList.addItem(p)
 		
 		except:
 			msgbox = QtGui.QMessageBox( self )
