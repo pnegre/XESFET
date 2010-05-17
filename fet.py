@@ -72,7 +72,7 @@ class MainWindow(QtGui.QMainWindow):
 			return
 		
 		try:
-			self.importGestib = ImportGestib(str(filename))
+			self.importGestib = ImportGestib(unicode(filename))
 			self.log('Fitxer ' + filename + ' carregat correctament')
 			self.updateButtons()
 			
@@ -99,7 +99,7 @@ class MainWindow(QtGui.QMainWindow):
 			return
 		
 		try:
-			fn = str(filename)
+			fn = unicode(filename)
 			self.importGestib.parse()
 			self.importGestib.writeToFile(fn)
 			self.log('Fitxer ' + fn + ' exportat correctament')
