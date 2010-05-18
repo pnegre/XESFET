@@ -74,6 +74,7 @@ class ImportGestib:
 		self.doGroups()
 		self.doSubjects()
 		self.doActivities()
+		self.doRooms()
 	
 	
 	
@@ -141,6 +142,19 @@ class ImportGestib:
 					' ' + joinAttrs(s,'nom','codi')))
 				subgroup.appendChild(createElement(self.doc,'Number_of_Students','0'))
 				course.appendChild(subgroup)
+
+	
+	def doRooms(self):
+		alist = self.dom.getElementsByTagName('AULES')[0].getElementsByTagName('AULA')
+		rooms = self.doc.createElement('Rooms_List')
+		self.root.appendChild(rooms)
+		for a in alist:
+			room = self.doc.createElement('Room')
+			rooms.appendChild(room)
+			room.appendChild(createElement(self.doc, 'Name', joinAttrs(a,'descripcio','codi')))
+			room.appendChild(createElement(self.doc, 'Capacity', '1000'))
+			print a
+
 
 
 	def writeToFile(self,fname):

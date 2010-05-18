@@ -98,16 +98,16 @@ class MainWindow(QtGui.QMainWindow):
 		if filename == '':
 			return
 		
-		try:
-			fn = unicode(filename)
-			self.importGestib.parse()
-			self.importGestib.writeToFile(fn)
-			self.log('Fitxer ' + fn + ' exportat correctament')
-		except:
-			msgbox = QtGui.QMessageBox( self )
-			msgbox.setText( "Error" )
-			msgbox.setModal( True )
-			ret = msgbox.exec_()
+		#try:
+		fn = unicode(filename)
+		self.importGestib.parse()
+		self.importGestib.writeToFile(fn)
+		self.log('Fitxer ' + fn + ' exportat correctament')
+		#except:
+			#msgbox = QtGui.QMessageBox( self )
+			#msgbox.setText( "Error" )
+			#msgbox.setModal( True )
+			#ret = msgbox.exec_()
 			
 
 
