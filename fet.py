@@ -34,19 +34,19 @@ class MainWindow(QtGui.QMainWindow):
 	
 	
 	def deleteCourses(self):
-		item = self.ui.courseList.currentItem()
-		if item:
-			self.importGestib.deleteCourse(unicode(item.text()))
-			self.ui.courseList.takeItem(self.ui.courseList.currentRow())
-			self.log("Eliminat curs " + item.text())
+		clist = self.ui.courseList.selectedItems()
+		for c in clist:
+			self.importGestib.deleteCourse(unicode(c.text()))
+			self.ui.courseList.takeItem(self.ui.courseList.row(c))
+			self.log("Eliminat curs " + c.text())
 	
 	
 	def deleteProfs(self):
-		item = self.ui.profList.currentItem()
-		if item:
-			self.importGestib.deleteProf(unicode(item.text()))
-			self.ui.profList.takeItem(self.ui.profList.currentRow())
-			self.log("Eliminat professor " + item.text())
+		plist = self.ui.profList.selectedItems()
+		for p in plist:
+			self.importGestib.deleteProf(unicode(p.text()))
+			self.ui.profList.takeItem(self.ui.profList.row(p))
+			self.log("Eliminat professor " + p.text())
 	
 	
 	def updateButtons(self):

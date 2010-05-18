@@ -103,7 +103,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_4">
         <item>
-         <widget class="QListWidget" name="courseList"/>
+         <widget class="QListWidget" name="courseList">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::MultiSelection</enum>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="but_delete_courses">
@@ -117,7 +124,14 @@
       <item>
        <layout class="QVBoxLayout" name="verticalLayout_3">
         <item>
-         <widget class="QListWidget" name="profList"/>
+         <widget class="QListWidget" name="profList">
+          <property name="alternatingRowColors">
+           <bool>true</bool>
+          </property>
+          <property name="selectionMode">
+           <enum>QAbstractItemView::MultiSelection</enum>
+          </property>
+         </widget>
         </item>
         <item>
          <widget class="QPushButton" name="but_delete_profs">
@@ -148,7 +162,7 @@
      <x>0</x>
      <y>0</y>
      <width>576</width>
-     <height>20</height>
+     <height>25</height>
     </rect>
    </property>
   </widget>
