@@ -86,7 +86,7 @@ class MainWindow(QtGui.QMainWindow):
 		
 		except:
 			msgbox = QtGui.QMessageBox( self )
-			msgbox.setText( "Error" )
+			msgbox.setText( "Error: %s" % sys.exc_info()[0] )
 			msgbox.setModal( True )
 			ret = msgbox.exec_()
 	
@@ -105,7 +105,7 @@ class MainWindow(QtGui.QMainWindow):
 			self.log('Fitxer ' + fn + ' exportat correctament')
 		except:
 			msgbox = QtGui.QMessageBox( self )
-			msgbox.setText( "Error" )
+			msgbox.setText( "Error: %s" % sys.exc_info()[0] )
 			msgbox.setModal( True )
 			ret = msgbox.exec_()
 			
