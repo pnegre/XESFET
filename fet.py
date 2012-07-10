@@ -92,7 +92,7 @@ class MainWindow(QtGui.QMainWindow):
 	
 	
 	def doExportFet(self):
-		filename = QtGui.QFileDialog.getOpenFileName(self,
+		filename = QtGui.QFileDialog.getSaveFileName(self,
 			QtCore.QString("Fitxer FET"), QtCore.QString(), "XML FET (*.fet)")
 		
 		if filename == '':
