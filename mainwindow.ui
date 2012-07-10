@@ -70,6 +70,9 @@
        <layout class="QVBoxLayout" name="verticalLayout_2">
         <item>
          <widget class="QPushButton" name="but_import_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="maximumSize">
            <size>
             <width>179</width>
@@ -83,6 +86,9 @@
         </item>
         <item>
          <widget class="QPushButton" name="pushButton_2">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="maximumSize">
            <size>
             <width>179</width>
@@ -162,7 +168,7 @@
      <x>0</x>
      <y>0</y>
      <width>576</width>
-     <height>25</height>
+     <height>19</height>
     </rect>
    </property>
   </widget>
